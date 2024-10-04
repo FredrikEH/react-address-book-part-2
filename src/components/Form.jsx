@@ -22,7 +22,7 @@ function Form({contact, postContact, setContact}){
 
     function handleChange(event){
         const inputName = event.target.name
-        const inputValue = event.target.value
+        const inputValue = event.target.value   
         switch (inputName) {
             case 'firstName':
                 setFirstName(inputValue);
