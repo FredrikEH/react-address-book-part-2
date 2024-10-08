@@ -1,8 +1,9 @@
 import { useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 
-function ContactView({contacts, contact, setContact}){
+function ContactView({contacts, contact, setContact, deleteContact}){
     const {id} = useParams()
+    const navigate = useNavigate()
     
     useEffect(() => {
         if(contacts && id){
@@ -10,6 +11,11 @@ function ContactView({contacts, contact, setContact}){
             setContact(matchingContact)
         }
     }, [contact, id])
+
+    function handleDelete(){
+        deleteContact(id)
+        navigate("/")
+    }
    
     if(!contact){
         return <p>No such contact</p>
@@ -22,6 +28,8 @@ function ContactView({contacts, contact, setContact}){
                 <p>City: {contact.city}</p>
                 <p>Street: {contact.street}</p>
             </article>
+            <button onClick={handleDelete}>Delete</button>
+            <Link to="/EditForm"><button>Edit</button></Link>
         </main>
     )
 }

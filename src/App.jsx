@@ -4,6 +4,7 @@ import {Route, Routes, Link} from 'react-router-dom'
 import ContactsList from './components/ContactsList'
 import ContactView from './components/ContactView'
 import Form from './components/Form'
+import EditForm from './components/EditForm';
 
 function App() {
     const [contacts, setContacts] = useState([])
@@ -31,16 +32,32 @@ function App() {
         getContacts()
     }
 
-    {/* 
-    const deleteContact = async (contact) => {
-        const response = await fetch(`https://boolean-uk-api-server.fly.dev/FredrikEH/contact/${id}`),
-        {
-            method: "DELETE"
-        }
+    const deleteContact = async (id) => {
+        const response = await fetch(
+            `https://boolean-uk-api-server.fly.dev/FredrikEH/contact/${id}`,
+            {
+                method: "DELETE",
+                headers: {"Content-Type": "application/json"},
+            }
+        )
+        const data = await response.json()
+        console.log(data)
         getContacts()
     }
-    */}
-    
+
+    const updateContact = async (id, contact) => {
+        const response = await fetch(
+            `https://boolean-uk-api-server.fly.dev/FredrikEH/contact/${id}`,
+            {
+                method: "PUT",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(contact)
+            }
+        )
+        const data = await response.json()
+        console.log(data)
+        getContacts()
+    }
     
     useEffect(() => {
         getContacts()
@@ -59,8 +76,9 @@ function App() {
             </header>
             <Routes>
                 <Route path="/" element={<ContactsList contacts={contacts}/>} />
-                <Route path="/contact/:id" element={<ContactView contacts={contacts} contact={contact} setContact={setContact} />} />
+                <Route path="/contact/:id" element={<ContactView contacts={contacts} contact={contact} setContact={setContact} deleteContact={deleteContact}/>} updateContact={updateContact}/>
                 <Route path="/form" element={<Form contact={contact} postContact={postContact} setContact={setContact}/>} />
+                <Route path="/editform" element={<EditForm contact={contact} updateContact={updateContact} setContact={setContact}/>} />
             </Routes>
         </>
     );

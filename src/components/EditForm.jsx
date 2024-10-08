@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router-dom"
 import {useState} from 'react'
 
-function Form({contact, postContact, setContact}){
+function EditForm({contact, updateContact, setContact}){
     const navigate = useNavigate()
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -14,7 +14,7 @@ function Form({contact, postContact, setContact}){
         contact.lastName = lastName
         contact.city = city
         contact.street = street
-        postContact(contact)
+        updateContact(contact.id, contact)
         navigate("/")
     }
 
@@ -42,7 +42,7 @@ function Form({contact, postContact, setContact}){
 
     return(
         <main> 
-            <h2>New contact</h2>
+            <h2>{"Edit: " + contact.firstName + " " + contact.lastName}</h2>
             <form onSubmit={handleSubmit}>
                 <ul>
                     <li>
@@ -86,10 +86,10 @@ function Form({contact, postContact, setContact}){
                         ></input>
                     </li>
                 </ul>
-                <button type="submit">Add contact</button>
+                <button type="submit">Edit contact</button>
             </form>
         </main>
     )
 }
 
-export default Form
+export default EditForm
